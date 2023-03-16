@@ -1,10 +1,7 @@
 package ai.lentra.dto.personal_info;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
-import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.validation.constraints.DecimalMax;
 import javax.validation.constraints.DecimalMin;
@@ -38,17 +35,16 @@ public class PersonalDetailsDTO {
 	@Pattern(regexp = "^[a-zA-Z]{1,50}$",message = "middle name must contain only letters and should be in  1 to 50 characters")
 
 	private String middleName;
-	@Pattern(regexp = "^[a-zA-Z]{2,10}$",message = "suffix  must contain only letters and should be in  3 to 50 characters")
-
+	@Pattern(regexp = "^[a-zA-Z]{2,10}$",message = "suffix  must contain only letters and should be in  2 to 10 characters")
 	private String suffix;
-	@Pattern(regexp = "^[a-zA-Z]{2,50}$",message = "first name must contain only letters and should be in 3 to 50 characters")
+	@Pattern(regexp = "^[a-zA-Z]{2,50}$",message = "first name must contain only letters and should be in 2 to 50 characters")
 
 	private String firstName;
 	@DecimalMin(value = "99", message = "Income must be at least 3 digits long")
 	@DecimalMax(value = "9999999999999", message = "Income cannot be more than 13 digits long")
 	private BigDecimal income;
 	private String civilStatus;
-	@Pattern(regexp = "^[a-zA-Z]{3,20}$",message = "Income source should be in 3 to 20 characters and igt should have only letters")
+	@Pattern(regexp = "^[a-zA-Z]{3,20}$",message = "Income source should be in 3 to 20 characters and it should have only letters")
 	private String incomeSource;
 	@DecimalMin(value = "10",message = "Income Period should not be less than 2 digits")
 	@DecimalMax(value = "9999999999",message = "Income Period should not be greater than 10 digits")

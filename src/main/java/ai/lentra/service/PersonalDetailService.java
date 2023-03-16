@@ -13,6 +13,6 @@ public interface PersonalDetailService {
     ResponseEntity<PersonalDetailsDTO> getPersonalDetailByApplicantId(Long applicantId) throws ResourceNotFoundException;
 
 
-    ResponseEntity<?> updatePersonalDetail(PersonalDetailsDTO details, Long applicantId) throws ResourceNotFoundException;
+    ResponseEntity<?> updatePersonalDetail(PersonalDetailsDTO details, Long applicantId) throws ResourceNotFoundException, InvalidInputException;
 
 }

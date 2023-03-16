@@ -29,7 +29,7 @@ public class PersonalDetailsController {
         return personalDetailService.getPersonalDetailByApplicantId(applicantId);
     }
     @PatchMapping("/personal-details/applicant/{applicantId}")
-    public ResponseEntity<ResponseDTO> updatePersonalDetails(@PathVariable Long applicantId, @RequestBody PersonalDetailsDTO personalDetailsDTO) throws ResourceNotFoundException, InvalidInputException ,HttpMessageNotReadableException{
+    public ResponseEntity<ResponseDTO> updatePersonalDetails(@PathVariable Long applicantId,@RequestBody @Valid  PersonalDetailsDTO personalDetailsDTO) throws ResourceNotFoundException, InvalidInputException ,HttpMessageNotReadableException{
         return personalDetailService.updatePersonalDetail(personalDetailsDTO,applicantId);
     }
     void validationCheck(PersonalDetailsDTO personalDetailsDTO) throws InvalidInputException {

@@ -27,7 +27,7 @@ public class VehicleDetailsController {
         return vehicleDetailsService.getVehicleDetails(applicantId);
     }
     @PatchMapping("/vehicles/{applicantId}")
-    public ResponseEntity<ResponseDTO> updateVehicleDetails(@RequestBody VehicleDetailsDTO vehicleDetailsDTO, @PathVariable("applicantId") long applicantId ) throws InvalidInputException {
+    public ResponseEntity<ResponseDTO> updateVehicleDetails(@RequestBody @Valid VehicleDetailsDTO vehicleDetailsDTO, @PathVariable("applicantId") long applicantId ) throws InvalidInputException {
         return vehicleDetailsService.updateVehicleDetails(vehicleDetailsDTO,applicantId);
     }
 }

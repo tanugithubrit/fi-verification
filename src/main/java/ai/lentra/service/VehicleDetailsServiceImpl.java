@@ -54,8 +54,6 @@ public class VehicleDetailsServiceImpl {
         VehicleDetails rawVehicle = repository.findByApplicantId(applicantId);
 
         if (rawVehicle!=null) {
-
-
             if (vehicleDetailsDTO.getBikeRegistrationNumber()!=0) {
                 rawVehicle.setBikeRegistrationNumber(vehicleDetailsDTO.getBikeRegistrationNumber());
             }

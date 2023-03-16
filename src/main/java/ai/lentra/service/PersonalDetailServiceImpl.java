@@ -70,7 +70,7 @@ public class PersonalDetailServiceImpl implements PersonalDetailService {
     }
 
     @Override
-    public ResponseEntity<ResponseDTO> updatePersonalDetail(PersonalDetailsDTO details, Long applicantId) throws ResourceNotFoundException {
+    public ResponseEntity<ResponseDTO> updatePersonalDetail(PersonalDetailsDTO details, Long applicantId) throws ResourceNotFoundException, InvalidInputException {
         PersonalDetails personalDetails = personalDetailsRepository.findByApplicantId(applicantId).orElseThrow(()-> new ResourceNotFoundException(RESOURCE_NOT_FOUND + applicantId));
         ObjectMapper objectMapper = new ObjectMapper();
         PersonalDetails personalDetailsDTO = objectMapper.convertValue(details, PersonalDetails.class);
@@ -89,6 +89,15 @@ public class PersonalDetailServiceImpl implements PersonalDetailService {
             if (personalDetailsDTO.getCitizenship() != null) {
                 personalDetails.setCitizenship(personalDetailsDTO.getCitizenship());
             }
+            if (personalDetailsDTO.getDateInspected()!= null) {
+                String[] date = personalDetailsDTO.getDateInspected().split("/");
+                LocalDate insDate = LocalDate.of(Integer.parseInt(date[2]), Integer.parseInt(date[1]), Integer.parseInt(date[0]));
+                LocalDate today = LocalDate.now();
+                if (insDate.isAfter(today)) {
+                    throw new InvalidInputException("Inspected Date" +FUTURE_DATE_ERROR_MSG+ ":  "+ today);
+                }
+                personalDetails.setDateInspected(personalDetailsDTO.getDateInspected());
+            }
             if (personalDetailsDTO.getIncome()!=null) {
                 personalDetails.setIncome(personalDetailsDTO.getIncome());
             }
@@ -99,6 +108,12 @@ public class PersonalDetailServiceImpl implements PersonalDetailService {
                 personalDetails.setApplicantId(personalDetailsDTO.getApplicantId());
             }
             if (personalDetailsDTO.getBirthDate() != null) {
+                LocalDate today = LocalDate.now();
+                String[] bdate = personalDetailsDTO.getBirthDate().split("/");
+                LocalDate birthDate = LocalDate.of(Integer.parseInt(bdate[2]), Integer.parseInt(bdate[1]), Integer.parseInt(bdate[0]));
+                if (birthDate.isAfter(today)) {
+                    throw new InvalidInputException("Birth Date "+FUTURE_DATE_ERROR_MSG+ ":  " + today);
+                }
                 personalDetails.setBirthDate(personalDetailsDTO.getBirthDate());
             }
             if (personalDetailsDTO.getCivilStatus() != null) {
@@ -110,9 +125,15 @@ public class PersonalDetailServiceImpl implements PersonalDetailService {
             if (personalDetailsDTO.getIncomePeriod()!= null) {
                 personalDetails.setIncomePeriod(personalDetailsDTO.getIncomePeriod());
             }
-            if (!personalDetailsDTO.isLoanTakenEarlier()) {
+        if (!personalDetailsDTO.isLoanTakenEarlier) {
+            if (personalDetails.isLoanTakenEarlier())
+            {
                 personalDetails.setLoanTakenEarlier(personalDetailsDTO.isLoanTakenEarlier());
             }
+        }else
+        {
+            personalDetails.setLoanTakenEarlier(personalDetailsDTO.isLoanTakenEarlier());
+        }
             if (personalDetailsDTO.getMiddleName() != null) {
                 personalDetails.setMiddleName(personalDetailsDTO.getMiddleName());
             }
@@ -122,6 +143,16 @@ public class PersonalDetailServiceImpl implements PersonalDetailService {
             if (personalDetailsDTO.getSuffix() != null) {
                 personalDetails.setSuffix(personalDetailsDTO.getSuffix());
             }
+            if (!personalDetailsDTO.isPoliticallyExposed()) {
+                if (personalDetails.isPoliticallyExposed())
+                {
+                    personalDetails.setPoliticallyExposed(personalDetailsDTO.isPoliticallyExposed());
+                }
+            }else
+            {
+                personalDetails.setPoliticallyExposed(personalDetailsDTO.isPoliticallyExposed());
+            }
+
             personalDetailsRepository.save(personalDetails);
             return ResponseEntity.status(HttpStatus.OK).body(getResponse(200, "PersonalDetails updated Successfully", "Success"));
 
