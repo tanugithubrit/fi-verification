@@ -1,24 +1,28 @@
 package ai.lentra.service;
 
+
 import ai.lentra.controller.ValidationController;
 import ai.lentra.dto.ResponseDto;
 import ai.lentra.exceptions.CurrencyNotFoundException;
 import ai.lentra.exceptions.ResourceNotFoundException;
-
 import ai.lentra.modal.expenses.Expenses;
 import ai.lentra.repository.ExpensesRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 
+import javax.persistence.EntityNotFoundException;
 import javax.transaction.Transactional;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.text.NumberFormat;
 import java.util.List;
 
-import static ai.lentra.commons.ErrorMessage.*;
+import static ai.lentra.commons.ErrorMessage.EXPENSES_NOT_FOUND;
+import static ai.lentra.commons.ErrorMessage.INVALID_CURRENCY;
+
 
 @Service
 @Transactional
@@ -41,6 +45,7 @@ String errorMsg = "";
         Expenses expenses1 =  calculateScore(expenses);
 
 if (checkValid) {
+    setscales(expenses1);
     expensesRepository.save(expenses1);
 }
          ResponseDto responseDTO=new ResponseDto();
@@ -52,11 +57,19 @@ if (checkValid) {
         return  ResponseEntity.status(HttpStatus.CREATED).body(responseDTO);
     }
 
+    private void setscales(Expenses expenses1) {
+       expenses1.setSchoolFeesAmt( expenses1.getSchoolFeesAmt().setScale(2,RoundingMode.HALF_UP));
+        expenses1.setAvgFuelCost(expenses1.getAvgFuelCost().setScale(2,RoundingMode.HALF_UP));
+        expenses1.setBroadbandBillAmt(expenses1.getBroadbandBillAmt().setScale(2,RoundingMode.HALF_UP));
+        expenses1.setCableNetBillAmt(expenses1.getCableNetBillAmt().setScale(2,RoundingMode.HALF_UP));
+        expenses1.setCollegeFeesAmt(expenses1.getCollegeFeesAmt().setScale(2,RoundingMode.HALF_UP));
+        expenses1.setElectricBillAmt(expenses1.getElectricBillAmt().setScale(2,RoundingMode.HALF_UP));
+        expenses1.setOfficeTransportationCost(expenses1.getOfficeTransportationCost().setScale(2,RoundingMode.HALF_UP));
+        expenses1.setWaterBillAmt(expenses1.getWaterBillAmt().setScale(2,RoundingMode.HALF_UP));
+    }
+
     private Boolean checkValidations(Expenses expenses) throws CurrencyNotFoundException{
 
-        System.out.println(validationController.checkPresicion((expenses.getAvgFuelCost()))+"  Precision Avg Cost");
-        System.out.println(validationController.checkPresicion(expenses.getAvgFuelCost())+"  Precision Avg Cost");
-        System.out.println(NumberFormat.getCurrencyInstance().format(expenses.getAvgFuelCost()));
 
 
         if (!validationController.checkCurrency(expenses.getAvgFuelCost())) {
@@ -89,6 +102,8 @@ if (checkValid) {
             throw new CurrencyNotFoundException(INVALID_CURRENCY + "for given transportation cost " + expenses.getOfficeTransportationCost());
         }
         else {
+
+
             return true;
         }
     }
@@ -97,30 +112,37 @@ if (checkValid) {
     public Expenses findExpenseByAppId(Integer appId) throws ResourceNotFoundException {
 
         return expensesRepository
-                .findByApplicantId(appId)
+                .findByAppId(appId)
                 .orElseThrow(() -> new ResourceNotFoundException(EXPENSES_NOT_FOUND + " for given Id " + appId));
     }
 
     @Override
     public Expenses updateExpense(Expenses expensesNew, Expenses expenses) {
-        if(expensesNew.getAvgFuelCost()!=null)
-        expenses.setAvgFuelCost(expensesNew.getAvgFuelCost());
-        if(expensesNew.getBroadbandBillAmt()!=null)
-        expenses.setBroadbandBillAmt(expensesNew.getBroadbandBillAmt());
-        if(expensesNew.getCableNetBillAmt()!=null)
-        expenses.setCableNetBillAmt(expensesNew.getCableNetBillAmt());
-        if(expensesNew.getCollegeFeesAmt()!=null)
-        expenses.setCollegeFeesAmt(expensesNew.getCollegeFeesAmt());
-        if(expensesNew.getElectricBillAmt()!=null)
-        expenses.setElectricBillAmt(expensesNew.getElectricBillAmt());
-        if(expensesNew.getOfficeTransportationCost()!=null)
-        expenses.setOfficeTransportationCost(expensesNew.getOfficeTransportationCost());
-        if(expensesNew.getWaterBillAmt()!=null)
-        expenses.setWaterBillAmt(expensesNew.getWaterBillAmt());
-        if(expensesNew.getSchoolFeesAmt()!=null)
-        expenses.setSchoolFeesAmt(expensesNew.getSchoolFeesAmt());
-        Expenses expenses1 =  calculateScore(expenses);
-        return expensesRepository.save(expenses1);
+        if(expensesNew.getAvgFuelCost()!=null) {
+            expenses.setAvgFuelCost(expensesNew.getAvgFuelCost());
+        }
+        if(expensesNew.getBroadbandBillAmt()!=null) {
+            expenses.setBroadbandBillAmt(expensesNew.getBroadbandBillAmt());
+        }
+        if(expensesNew.getCableNetBillAmt()!=null) {
+            expenses.setCableNetBillAmt(expensesNew.getCableNetBillAmt());
+        }
+        if(expensesNew.getCollegeFeesAmt()!=null) {
+            expenses.setCollegeFeesAmt(expensesNew.getCollegeFeesAmt());
+        }
+        if(expensesNew.getElectricBillAmt()!=null) {
+            expenses.setElectricBillAmt(expensesNew.getElectricBillAmt());
+        }
+        if(expensesNew.getOfficeTransportationCost()!=null) {
+            expenses.setOfficeTransportationCost(expensesNew.getOfficeTransportationCost());
+        }
+        if(expensesNew.getWaterBillAmt()!=null) {
+            expenses.setWaterBillAmt(expensesNew.getWaterBillAmt());
+        }
+        if(expensesNew.getSchoolFeesAmt()!=null) {
+            expenses.setSchoolFeesAmt(expensesNew.getSchoolFeesAmt());
+        }
+        return expensesRepository.save(expenses);
     }
 
     private Expenses calculateScore(Expenses expenses){
@@ -130,7 +152,7 @@ if (checkValid) {
                 expenses.getCableNetBillAmt()).add(expenses.getCollegeFeesAmt()).add(expenses.getSchoolFeesAmt());
 
         score = score.setScale(2, RoundingMode.HALF_UP);
-        expenses.setExpScore(score);
+        expenses.setScore(score);
         return expenses;
     }
 }

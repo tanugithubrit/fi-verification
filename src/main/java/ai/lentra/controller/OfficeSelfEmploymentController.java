@@ -1,10 +1,15 @@
 package ai.lentra.controller;
 
+
+
+
 import ai.lentra.commons.EndPointReferer;
 import ai.lentra.commons.JsonUtils1;
 import ai.lentra.dto.OfficeSelfEmploymentDto;
-import ai.lentra.modal.employment_info.OfficeSelfEmployment;
-import ai.lentra.service.OfficeSelfEmploymentService;
+import ai.lentra.exceptions.ResidenceException;
+import ai.lentra.exceptions.ResourceNotFoundException;
+import ai.lentra.fiverification.model.OfficeSelfEmployment;
+import ai.lentra.fiverification.service.OfficeSelfEmploymentService;
 import io.swagger.v3.oas.annotations.Operation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -13,14 +18,13 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
 import javax.persistence.EntityNotFoundException;
 import java.util.List;
 import java.util.stream.Collectors;
 
 import static ai.lentra.commons.EndPointReferer.*;
-import static ai.lentra.commons.ErrorMessage.EXPENSES_NOT_FOUND;
 import static ai.lentra.commons.ErrorMessage.OFFICE_NOT_FOUND;
+
 
 @RestController
 @RequestMapping(
@@ -52,41 +56,35 @@ public class OfficeSelfEmploymentController {
 
     @Operation(summary = "Add office/self employment")
     @PostMapping(OFFICE_ADD)
-    public ResponseEntity<?> createOffice(@RequestBody OfficeSelfEmploymentDto officeSelfEmploymentDto) {
+    public ResponseEntity<?> createOffice(@RequestBody OfficeSelfEmploymentDto officeSelfEmploymentDto) throws ResidenceException {
         logger.info("Started API request for Creating Office details...");
         OfficeSelfEmployment offices = jsonUtils.mapper().convertValue(officeSelfEmploymentDto, OfficeSelfEmployment.class);
 
         officeSelfEmploymentService.addOffice( offices);
         logger.info("Done Creating Office...");
-        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        return officeSelfEmploymentService.addOffice( offices);
     }
 
 
     @Operation(summary = "Get Single office details by ID")
     @GetMapping(OFFICE_ID)
-    public ResponseEntity<OfficeSelfEmploymentDto> getExpenses(@PathVariable Long officeId) {
-        logger.info("Started API call to get office details for Id {} ...", officeId);
-        OfficeSelfEmployment offices = officeSelfEmploymentService.findOfficeById(officeId);
+
+    public ResponseEntity<OfficeSelfEmploymentDto> getExpenses(@PathVariable Integer applicantId)throws ResourceNotFoundException {
+        logger.info("Started API call to get office details for Id {} ...", applicantId);
+        OfficeSelfEmployment offices = officeSelfEmploymentService.findOfficeById(applicantId);
         OfficeSelfEmploymentDto officeSelfEmploymentDto = jsonUtils.mapper().convertValue(offices, OfficeSelfEmploymentDto.class);
-        logger.info("Done getting office details with response {}...", officeSelfEmploymentDto.toString());
-
-
         return new ResponseEntity<>(officeSelfEmploymentDto, HttpStatus.OK);
     }
 
 
     @Operation(summary = "Update Single office/self employment")
     @PutMapping(OFFICE_ID + UPDATE)
-    public ResponseEntity<OfficeSelfEmploymentDto> updateOffices(@PathVariable Long officeId,  @RequestBody OfficeSelfEmploymentDto officeSelfEmploymentDto) {
-        logger.info("Started API call to get office details for Id {} ...", officeId);
-        OfficeSelfEmployment officeSelfEmployment = officeSelfEmploymentService.findOfficeById(officeId);
-//                .orElseThrow(() -> new ResourceNotFoundException("Employee not exist with id: " + id));
-        OfficeSelfEmploymentDto officeSelfEmploymentDtoOld = jsonUtils.mapper().convertValue(officeSelfEmployment, OfficeSelfEmploymentDto.class);
-        logger.info("Done getting office details with response {}...", officeSelfEmploymentDtoOld.toString());
+    public ResponseEntity<OfficeSelfEmploymentDto> updateOffices(@PathVariable Integer applicantId,  @RequestBody OfficeSelfEmploymentDto officeSelfEmploymentDto) {
+        logger.info("Started API call to get office details for Id {} ...", applicantId);
+        OfficeSelfEmployment officeSelfEmployment = officeSelfEmploymentService.findOfficeById(applicantId);
         OfficeSelfEmployment newOffice = jsonUtils.mapper().convertValue(officeSelfEmploymentDto, OfficeSelfEmployment.class);
         OfficeSelfEmployment officeUpdated = officeSelfEmploymentService.updateOffice(newOffice,officeSelfEmployment);
         OfficeSelfEmploymentDto officeDtoNew = jsonUtils.mapper().convertValue(officeUpdated, OfficeSelfEmploymentDto.class);
-
         return new ResponseEntity<>(officeDtoNew, HttpStatus.OK);
     }
 }

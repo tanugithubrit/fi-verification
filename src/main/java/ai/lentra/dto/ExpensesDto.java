@@ -18,7 +18,8 @@ import java.math.BigDecimal;
 public class ExpensesDto {
 
 
-
+    @JsonProperty("id")
+    private Long id;
 
     @JsonProperty("other_exp")
     private BigDecimal otherExp;
@@ -42,7 +43,7 @@ public class ExpensesDto {
     private BigDecimal broadbandBillAmt;
 
     @JsonProperty("avg_fuel_cost")
-    private Integer avgFuelCost;
+    private BigDecimal avgFuelCost;
 
     @JsonProperty("water_bill_amt")
     private BigDecimal waterBillAmt;
@@ -57,6 +58,13 @@ public class ExpensesDto {
         this.applicantId = applicantId;
     }
 
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
 
     public BigDecimal getOtherExp() {
         return otherExp;
@@ -114,11 +122,11 @@ public class ExpensesDto {
         this.broadbandBillAmt = broadbandBillAmt;
     }
 
-    public Integer getAvgFuelCost() {
+    public BigDecimal getAvgFuelCost() {
         return avgFuelCost;
     }
 
-    public void setAvgFuelCost(Integer avgFuelCost) {
+    public void setAvgFuelCost(BigDecimal avgFuelCost) {
         this.avgFuelCost = avgFuelCost;
     }
 
@@ -126,7 +134,23 @@ public class ExpensesDto {
         return waterBillAmt;
     }
 
+    public ExpensesDto(Long id, BigDecimal otherExp, BigDecimal collegeFeesAmt, BigDecimal schoolFeesAmt, BigDecimal electricBillAmt, BigDecimal officeTransportationCost, BigDecimal cableNetBillAmt, BigDecimal broadbandBillAmt, BigDecimal avgFuelCost, BigDecimal waterBillAmt, Integer applicantId) {
+        this.id = id;
+        this.otherExp = otherExp;
+        this.collegeFeesAmt = collegeFeesAmt;
+        this.schoolFeesAmt = schoolFeesAmt;
+        this.electricBillAmt = electricBillAmt;
+        this.officeTransportationCost = officeTransportationCost;
+        this.cableNetBillAmt = cableNetBillAmt;
+        this.broadbandBillAmt = broadbandBillAmt;
+        this.avgFuelCost = avgFuelCost;
+        this.waterBillAmt = waterBillAmt;
+        this.applicantId = applicantId;
+    }
+
     public void setWaterBillAmt(BigDecimal waterBillAmt) {
         this.waterBillAmt = waterBillAmt;
     }
+
+
 }

@@ -1,12 +1,13 @@
 package ai.lentra.controller;
 
+
 import ai.lentra.commons.EndPointReferer;
 import ai.lentra.commons.JsonUtils1;
 import ai.lentra.dto.ExpensesDto;
 import ai.lentra.exceptions.CurrencyNotFoundException;
 import ai.lentra.exceptions.ResourceNotFoundException;
-import ai.lentra.modal.expenses.Expenses;
-import ai.lentra.service.ExpensesService;
+import ai.lentra.fiverification.model.Expenses;
+import ai.lentra.fiverification.service.ExpensesService;
 import io.swagger.v3.oas.annotations.Operation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -18,37 +19,38 @@ import org.springframework.web.bind.annotation.*;
 import javax.persistence.EntityNotFoundException;
 import java.util.List;
 import java.util.stream.Collectors;
+
 import static ai.lentra.commons.EndPointReferer.*;
-import static ai.lentra.commons.ErrorMessage.*;
+import static ai.lentra.commons.ErrorMessage.EXPENSES_NOT_FOUND;
 
 
 @RestController
-@RequestMapping(value = EndPointReferer.EXPENSE, produces = MediaType.APPLICATION_JSON_VALUE)
+@RequestMapping(
+        value = EndPointReferer.EXPENSE,
+        produces = MediaType.APPLICATION_JSON_VALUE)
 public class ExpenseController {
     private static final Logger logger =  LoggerFactory.getLogger(ExpenseController.class);
 
     @Autowired
     private JsonUtils1 jsonUtils;
-
     @Autowired
     ExpensesService expensesService;
 
-    @Autowired
-    ValidationController validationController;
-        @Operation(summary = "Get all expenses")
-        @GetMapping(EXPENSE_ALL)
-        public ResponseEntity<List<ExpensesDto> > getAllExpenses()  throws ResourceNotFoundException {
+
+    @Operation(summary = "Get all expenses")
+    @GetMapping(EXPENSE_ALL)
+    public ResponseEntity<List<ExpensesDto> > getAllExpenses()  throws ResourceNotFoundException {
         logger.info("Started API call to get all expenses");
-           List<Expenses> expenses = expensesService.findAll();
-            List<ExpensesDto> expenseDtoList=
+        List<Expenses> expenses = expensesService.findAll();
+        List<ExpensesDto> expenseDtoList=
 
-                    expenses.stream()
+                expenses.stream()
                         .map(addr -> jsonUtils.mapper().convertValue(addr, ExpensesDto.class)).collect(Collectors.toList());
-            if (!expenses.isEmpty()) {
+        if (!expenses.isEmpty()) {
 
-                return  ResponseEntity.status(HttpStatus.OK).body(expenseDtoList);
-            }
-            throw new EntityNotFoundException(EXPENSES_NOT_FOUND);
+            return  ResponseEntity.status(HttpStatus.OK).body(expenseDtoList);
+        }
+        throw new EntityNotFoundException(EXPENSES_NOT_FOUND);
     }
 
     @Operation(summary = "Add expenses")
@@ -60,7 +62,6 @@ public class ExpenseController {
 
         logger.info("Done Creating Expense...");
         return expensesService.addExpense( expenses);
-//        new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
 
@@ -70,7 +71,7 @@ public class ExpenseController {
         logger.info("Started API call to get expense details for Id {} ...", applicantId);
         Expenses expense = expensesService.findExpenseByAppId(applicantId);
         ExpensesDto expensesDto = jsonUtils.mapper().convertValue(expense, ExpensesDto.class);
-        logger.info("Done getting contact details with response {}...", expensesDto.toString());
+        logger.info("Done getting expense details with response {}...", expensesDto);
 
 
         return new ResponseEntity<>(expensesDto, HttpStatus.OK);
@@ -81,9 +82,8 @@ public class ExpenseController {
     public ResponseEntity<ExpensesDto> updateExpenses(@PathVariable Integer applicantId,  @RequestBody ExpensesDto expensesDto) throws ResourceNotFoundException {
         logger.info("Started API call to get expense details for Id {} ...", applicantId);
         Expenses expense = expensesService.findExpenseByAppId(applicantId);
-//                .orElseThrow(() -> new ResourceNotFoundException("Employee not exist with id: " + id));
         ExpensesDto expensesDtoOld = jsonUtils.mapper().convertValue(expense, ExpensesDto.class);
-        logger.info("Done getting contact details with response {}...", expensesDtoOld.toString());
+        logger.info("Done getting contact details with response {}...", expensesDtoOld);
         Expenses newExpenses = jsonUtils.mapper().convertValue(expensesDto, Expenses.class);
         Expenses expensesUpdated = expensesService.updateExpense(newExpenses,expense);
         ExpensesDto expensesDtoNew = jsonUtils.mapper().convertValue(expensesUpdated, ExpensesDto.class);
