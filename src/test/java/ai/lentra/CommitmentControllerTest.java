@@ -1,10 +1,11 @@
 package ai.lentra;
 
-import ai.lentra.controller.CommitmentController;
+import ai.lentra.controller.commitments.CommitmentController;
 import ai.lentra.dto.CommitmentDTO;
 import ai.lentra.modal.Commitment;
-import ai.lentra.service.CommitmentService;
-import ai.lentra.service.CommitmentServiceImpl;
+import ai.lentra.service.commitments.CommitmentService;
+import ai.lentra.serviceImpl.commitments.CommitmentServiceImpl;
+
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
@@ -12,6 +13,7 @@ import org.mockito.junit.MockitoJUnitRunner;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.context.annotation.Scope;
 import org.springframework.http.ResponseEntity;
 
 import java.io.IOException;
@@ -23,7 +25,8 @@ import static org.junit.Assert.assertNotNull;
 import static org.mockito.Mockito.when;
 
 @SpringBootTest
-@RunWith(MockitoJUnitRunner.class)
+//@RunWith(MockitoJUnitRunner.class)
+@Scope("ai.lentra.service.*")
 public class CommitmentControllerTest {
     @MockBean
     CommitmentServiceImpl commitmentServiceImpl;

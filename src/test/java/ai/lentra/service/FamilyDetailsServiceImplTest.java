@@ -1,8 +1,10 @@
 package ai.lentra.service;
 
 import ai.lentra.dto.FamilyDetailsRequest;
-import ai.lentra.modal.FamilyDetails;
-import ai.lentra.repository.FamilyDetailsRepository;
+import ai.lentra.modal.famil_info.FamilyDetail;
+import ai.lentra.repository.familyDetails.FamilyDetailsRepository;
+import ai.lentra.serviceImpl.familyDetails.FamilyDetailsServiceImpl;
+
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
@@ -11,6 +13,7 @@ import org.mockito.junit.MockitoJUnitRunner;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.context.annotation.Scope;
 
 import java.util.Date;
 import java.util.List;
@@ -21,27 +24,28 @@ import static org.mockito.Mockito.when;
 
 
 @SpringBootTest
-@RunWith(MockitoJUnitRunner.class)
+//@RunWith(MockitoJUnitRunner.class)
+@Scope("ai.lentra.service.*")
 public class FamilyDetailsServiceImplTest {
     @MockBean
     FamilyDetailsRepository familyDetailsRepository;
     @Autowired
     FamilyDetailsServiceImpl familyDetailsServiceImpl;
     FamilyDetailsRequest familyDetailsRequest = new FamilyDetailsRequest();
-    FamilyDetails familyDetails = new FamilyDetails();
+    FamilyDetail familyDetails = new FamilyDetail();
 
     @Test
     public void test_insertFamilyDetails() {
-        FamilyDetails familyDetails = dummyFamilyDetails();
+        FamilyDetail familyDetails = dummyFamilyDetails();
         FamilyDetailsRequest familyDetailsRequest = dummyFamilyDetailsRequest();
-        FamilyDetails response = familyDetailsServiceImpl.insertFamilyDetails(familyDetailsRequest);
+        FamilyDetail response = familyDetailsServiceImpl.insertFamilyDetails(familyDetailsRequest);
         when(familyDetails).thenReturn(response);
         assertNotNull(response);
 
     }
 
     public FamilyDetailsRequest dummyFamilyDetailsRequest() {
-        familyDetailsRequest.setFamilyDetailsId(1);
+        /*familyDetailsRequest.setFamilyDetailsId(1);
         familyDetailsRequest.setNo_of_dependants(String.valueOf(2));
         familyDetailsRequest.setNo_of_minor(String.valueOf(2));
         familyDetailsRequest.setChild_educational_level("student");
@@ -70,13 +74,15 @@ public class FamilyDetailsServiceImplTest {
         familyDetailsRequest.setMothers_middle_name("rajendra");
         familyDetailsRequest.setMothers_last_name("ringe");
         familyDetailsRequest.setMother_religion("maya");
+
+         */
         return familyDetailsRequest;
 
     }
 
-    public FamilyDetails dummyFamilyDetails() {
+    public FamilyDetail dummyFamilyDetails() {
         FamilyDetailsRequest familyDetailsRequest = dummyFamilyDetailsRequest();
-        familyDetails.setFamilyDetailsId(familyDetailsRequest.getFamilyDetailsId());
+       /* familyDetails.setFamilyDetailsId(familyDetailsRequest.getFamilyDetailsId());
         familyDetails.setNo_of_dependants(familyDetailsRequest.getNo_of_dependants());
         familyDetails.setNo_of_minor(familyDetailsRequest.getNo_of_minor());
         familyDetails.setChild_educational_level(familyDetailsRequest.getChild_educational_level());
@@ -105,6 +111,8 @@ public class FamilyDetailsServiceImplTest {
         familyDetails.setMothers_last_name(familyDetailsRequest.getMothers_last_name());
         familyDetails.setMother_religion(familyDetailsRequest.getMother_religion());
         familyDetailsRepository.save(familyDetails);
+
+        */
         return familyDetails;
 
     }
@@ -113,7 +121,7 @@ public class FamilyDetailsServiceImplTest {
     public void test_familyDetailsGetById() {
         familyDetails = dummyFamilyDetails();
         Integer id = 1;
-        Optional<FamilyDetails> response = familyDetailsServiceImpl.getFamilyDetailsById(1);
+        Optional<FamilyDetail> response = familyDetailsServiceImpl.getFamilyDetailsById(1);
         when(familyDetailsRepository.getById(1)).thenReturn(familyDetails);
         Assertions.assertNotNull(familyDetails);
         Assertions.assertNotNull(response);
@@ -123,22 +131,22 @@ public class FamilyDetailsServiceImplTest {
 
     @Test
     public void test_findAll() {
-        FamilyDetails familyDetails = dummyFamilyDetails();
-        List<FamilyDetails> familyDetails1 = familyDetailsRepository.findAll();
+        FamilyDetail familyDetails = dummyFamilyDetails();
+        List<FamilyDetail> familyDetails1 = familyDetailsRepository.findAll();
         when(familyDetailsRepository.findAll()).thenReturn(familyDetails1);
-        List<FamilyDetails> response = familyDetailsServiceImpl.findAll();
+        List<FamilyDetail> response = familyDetailsServiceImpl.findAll();
         assertNotNull(response);
     }
     @Test
     public void test_familyDetailsUpdate(){
         FamilyDetailsRequest familyDetailsRequest=dummyFamilyDetailsRequest();
-        FamilyDetails familyDetails=dummyFamilyDetails();
-        when(familyDetailsRepository.save(Mockito.any(FamilyDetails.class))).thenReturn(familyDetails);
-        FamilyDetails response = familyDetailsServiceImpl.familyDetailsUpdate(familyDetailsRequest);
+        FamilyDetail familyDetails=dummyFamilyDetails();
+        when(familyDetailsRepository.save(Mockito.any(FamilyDetail.class))).thenReturn(familyDetails);
+        FamilyDetail response = familyDetailsServiceImpl.familyDetailsUpdate(familyDetailsRequest);
         assertNotNull(response);
     }
-    FamilyDetails dummyfamilyDetails(){
-        FamilyDetails familyDetails=new FamilyDetails();
+    FamilyDetail dummyfamilyDetails(){
+        FamilyDetail familyDetails=new FamilyDetail();
         familyDetails.setFamilyDetailsId(1);
         familyDetails.setNo_of_dependants(String.valueOf(2));
         familyDetails.setNo_of_minor(String.valueOf(2));

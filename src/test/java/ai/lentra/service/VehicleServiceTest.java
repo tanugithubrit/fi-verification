@@ -7,7 +7,9 @@ import ai.lentra.exceptions.DuplicateResourceException;
 import ai.lentra.exceptions.InvalidInputException;
 import ai.lentra.modal.VehicleDetails;
 import ai.lentra.modal.personal_info.PersonalDetails;
-import ai.lentra.repository.VehicleDetailsRepository;
+import ai.lentra.repository.vehicleInformations.VehicleDetailsRepository;
+import ai.lentra.serviceImpl.vehicleInformations.VehicleDetailsServiceImpl;
+
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
