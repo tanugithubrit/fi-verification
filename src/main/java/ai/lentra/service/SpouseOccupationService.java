@@ -1,8 +1,9 @@
 package ai.lentra.service;
 
-import ai.lentra.dto.ResponseDTO;
-import ai.lentra.modal.lookup.SpouseOccupation;
-import ai.lentra.repository.lookup.SpouseOccupationRepository;
+
+import ai.lentra.dto.responses.ResponseDTO;
+import ai.lentra.modal.lookups.SpouseOccupation;
+import ai.lentra.repository.lookups.SpouseOccupationRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -22,18 +23,18 @@ public class SpouseOccupationService {
         if (spouseOccupationType!=null) {
             spouseOccupationType.setActive(true);
             spouseOccupationRepository.save(spouseOccupationType);
-            ResponseDTO responseDTO = new ResponseDTO();
-            responseDTO.setStatus("Success");
-            responseDTO.setCode(HttpStatus.CREATED);
-            responseDTO.setMessage("Successfully created spouse occupation type.");
-            return ResponseEntity.status(HttpStatus.CREATED).body(responseDTO);
+            ResponseDTO ResponseDTO = new ResponseDTO();
+            ResponseDTO.setStatus("Success");
+            ResponseDTO.setCode(HttpStatus.CREATED);
+            ResponseDTO.setMessage("Successfully created spouse occupation type.");
+            return ResponseEntity.status(HttpStatus.CREATED).body(ResponseDTO);
         }
         else {
-            ResponseDTO responseDTO = new ResponseDTO();
-            responseDTO.setStatus("Failed");
-            responseDTO.setCode(HttpStatus.BAD_REQUEST);
-            responseDTO.setMessage("Failed to create sim Data");
-            return ResponseEntity.badRequest().body(responseDTO);
+            ResponseDTO ResponseDTO = new ResponseDTO();
+            ResponseDTO.setStatus("Failed");
+            ResponseDTO.setCode(HttpStatus.BAD_REQUEST);
+            ResponseDTO.setMessage("Failed to create sim Data");
+            return ResponseEntity.badRequest().body(ResponseDTO);
         }
     }
 
@@ -43,11 +44,11 @@ public class SpouseOccupationService {
             return ResponseEntity.ok(Collections.singletonList(spouseOccupationType));
         }
         else {
-            ResponseDTO responseDTO = new ResponseDTO();
-            responseDTO.setStatus("Failed");
-            responseDTO.setCode(HttpStatus.NOT_FOUND);
-            responseDTO.setMessage("Failed to retrieve spouse occupation type.");
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(Collections.singletonList(responseDTO));
+            ResponseDTO ResponseDTO = new ResponseDTO();
+            ResponseDTO.setStatus("Failed");
+            ResponseDTO.setCode(HttpStatus.NOT_FOUND);
+            ResponseDTO.setMessage("Failed to retrieve spouse occupation type.");
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(Collections.singletonList(ResponseDTO));
         }
     }
 

@@ -1,6 +1,6 @@
 package ai.lentra.controller;
 
-import ai.lentra.modal.lookup.InsuranceType;
+import ai.lentra.modal.lookups.InsuranceType;
 import ai.lentra.service.InsuranceTypeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;

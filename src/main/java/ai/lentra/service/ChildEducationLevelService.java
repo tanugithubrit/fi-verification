@@ -1,8 +1,9 @@
 package ai.lentra.service;
 
-import ai.lentra.dto.ResponseDTO;
-import ai.lentra.modal.lookup.ChildEducationLevel;
-import ai.lentra.repository.lookup.ChildEducationLevelRepository;
+
+import ai.lentra.dto.responses.ResponseDTO;
+import ai.lentra.modal.lookups.ChildEducationLevel;
+import ai.lentra.repository.lookups.ChildEducationLevelRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -20,18 +21,18 @@ public class ChildEducationLevelService {
         if (childEducationLevel!=null) {
             childEducationLevel.setActive(true);
             childEducationLevelRepository.save(childEducationLevel);
-            ResponseDTO responseDTO = new ResponseDTO();
-            responseDTO.setStatus("Success");
-            responseDTO.setCode(HttpStatus.CREATED);
-            responseDTO.setMessage("Successfully created child education type.");
-            return ResponseEntity.status(HttpStatus.CREATED).body(responseDTO);
+            ResponseDTO ResponseDTO = new ResponseDTO();
+            ResponseDTO.setStatus("Success");
+            ResponseDTO.setCode(HttpStatus.CREATED);
+            ResponseDTO.setMessage("Successfully created child education type.");
+            return ResponseEntity.status(HttpStatus.CREATED).body(ResponseDTO);
         }
         else {
-            ResponseDTO responseDTO = new ResponseDTO();
-            responseDTO.setStatus("Failed");
-            responseDTO.setCode(HttpStatus.BAD_REQUEST);
-            responseDTO.setMessage("Failed to create child education data");
-            return ResponseEntity.badRequest().body(responseDTO);
+            ResponseDTO ResponseDTO = new ResponseDTO();
+            ResponseDTO.setStatus("Failed");
+            ResponseDTO.setCode(HttpStatus.BAD_REQUEST);
+            ResponseDTO.setMessage("Failed to create child education data");
+            return ResponseEntity.badRequest().body(ResponseDTO);
         }
     }
 
@@ -41,11 +42,11 @@ public class ChildEducationLevelService {
             return ResponseEntity.ok(Collections.singletonList(childEducationLevel));
         }
         else {
-            ResponseDTO responseDTO = new ResponseDTO();
-            responseDTO.setStatus("Failed");
-            responseDTO.setCode(HttpStatus.NOT_FOUND);
-            responseDTO.setMessage("Failed to retrieve child education level type.");
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(Collections.singletonList(responseDTO));
+            ResponseDTO ResponseDTO = new ResponseDTO();
+            ResponseDTO.setStatus("Failed");
+            ResponseDTO.setCode(HttpStatus.NOT_FOUND);
+            ResponseDTO.setMessage("Failed to retrieve child education level type.");
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(Collections.singletonList(ResponseDTO));
         }
     }
 

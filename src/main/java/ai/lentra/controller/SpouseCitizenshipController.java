@@ -1,7 +1,7 @@
-package ai.lentra.controller.lookup;
+package ai.lentra.controller;
 
-import ai.lentra.modal.lookup.SpouseCitizenship;
-import ai.lentra.modal.lookup.SpouseOccupation;
+import ai.lentra.modal.lookups.SpouseCitizenship;
+import ai.lentra.modal.lookups.SpouseOccupation;
 import ai.lentra.service.SpouseCitizenshipService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;

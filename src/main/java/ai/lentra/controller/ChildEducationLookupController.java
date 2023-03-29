@@ -1,8 +1,8 @@
-package ai.lentra.controller.lookup;
+package ai.lentra.controller;
 
 
-import ai.lentra.modal.lookup.ChildEducationLevel;
-import ai.lentra.modal.lookup.SpouseOccupation;
+import ai.lentra.modal.lookups.ChildEducationLevel;
+import ai.lentra.modal.lookups.SpouseOccupation;
 import ai.lentra.service.ChildEducationLevelService;
 import ai.lentra.service.SpouseOccupationService;
 import org.springframework.beans.factory.annotation.Autowired;

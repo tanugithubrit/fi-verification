@@ -1,6 +1,6 @@
 package ai.lentra.controller.advice;
 
-import ai.lentra.dto.ResponseDto;
+
 import ai.lentra.dto.responses.ResponseDTO;
 import ai.lentra.exceptions.*;
 import org.apache.tomcat.util.http.fileupload.impl.FileSizeLimitExceededException;
@@ -24,16 +24,16 @@ public class ControllerAdvice {
 //    to handle the file upload exceptions
     @ExceptionHandler(MaxUploadSizeExceededException.class)
     public ResponseEntity<ResponseDTO> handleMaxUploadSizeExceededException(MaxUploadSizeExceededException exc) {
-        ResponseDTO responseDTO = new ResponseDTO();
-        responseDTO.setCode(HttpStatus.BAD_REQUEST);
-        responseDTO.setStatus("Upload Failed ");
-        responseDTO.setMessage("File size is exceed than allowed limit (100MB) ");
-    return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(responseDTO); //
+        ResponseDTO ResponseDTO = new ResponseDTO();
+        ResponseDTO.setCode(HttpStatus.BAD_REQUEST);
+        ResponseDTO.setStatus("Upload Failed ");
+        ResponseDTO.setMessage("File size is exceed than allowed limit (100MB) ");
+    return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ResponseDTO); //
     }
     //to handle the dto validation errors
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<List<ResponseDTO>> handleValidationExceptions(MethodArgumentNotValidException ex) {
-        List<ResponseDTO> responseDTOs = new ArrayList<>();
+        List<ResponseDTO> ResponseDTOs = new ArrayList<>();
         Map<String, String> errorMapping = new HashMap<>();
         ResponseDTO errorResponse= new ResponseDTO();
         errorResponse.setCode(HttpStatus.BAD_REQUEST);
@@ -42,78 +42,78 @@ public class ControllerAdvice {
         ex.getBindingResult().getFieldErrors().forEach(error -> {
             errorMapping.put(error.getField(), error.getDefaultMessage());
             errorResponse.setMessage(errorMapping.toString());
-            responseDTOs.add(errorResponse);
+            ResponseDTOs.add(errorResponse);
         });
 
 
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(responseDTOs);
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ResponseDTOs);
     }
     //to handle FileSizeLimitExceededException
     @ExceptionHandler(FileSizeLimitExceededException.class)
     public ResponseEntity<ResponseDTO> handleFileSizeLimitExceededException(FileSizeLimitExceededException exc) {
-        ResponseDTO responseDTO = new ResponseDTO();
-        responseDTO.setCode(HttpStatus.BAD_REQUEST);
-        responseDTO.setStatus("Upload Failed ");
-        responseDTO.setMessage("File size is exceed than allowed limit (100MB)  ");
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(responseDTO); //
+        ResponseDTO ResponseDTO = new ResponseDTO();
+        ResponseDTO.setCode(HttpStatus.BAD_REQUEST);
+        ResponseDTO.setStatus("Upload Failed ");
+        ResponseDTO.setMessage("File size is exceed than allowed limit (100MB)  ");
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ResponseDTO); //
     }
     @ExceptionHandler(HttpMessageNotReadableException.class)
     public ResponseEntity<ResponseDTO> handleLeadingZeroParseError(HttpMessageNotReadableException exc) {
-        ResponseDTO responseDTO = new ResponseDTO();
-        responseDTO.setCode(HttpStatus.BAD_REQUEST);
-        responseDTO.setStatus("Invalid Input");
+        ResponseDTO ResponseDTO = new ResponseDTO();
+        ResponseDTO.setCode(HttpStatus.BAD_REQUEST);
+        ResponseDTO.setStatus("Invalid Input");
         if(exc.getCause().toString().contains("Leading zeroes not allowed")){
-            responseDTO.setMessage("Invalid Input some of the Field contains leading zeros :");
+            ResponseDTO.setMessage("Invalid Input some of the Field contains leading zeros :");
         }
         if(exc.getCause().toString().contains("`java.math.BigDecimal` from String")){
-            responseDTO.setMessage("Field contains Special Characters or Alphabets in number fields:");
+            ResponseDTO.setMessage("Field contains Special Characters or Alphabets in number fields:");
         }
 
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(responseDTO); //
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ResponseDTO); //
     }
 
 //    To handle the ResourceNotFoundException
     @ExceptionHandler(ResourceNotFoundException.class)
     public ResponseEntity<ResponseDTO> handleResourceNotFoundException(ResourceNotFoundException exc) {
-        ResponseDTO responseDTO = new ResponseDTO();
-        responseDTO.setCode(HttpStatus.NOT_FOUND);
-        responseDTO.setStatus("ERROR");
-        responseDTO.setMessage(exc.getMessage());
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(responseDTO);
+        ResponseDTO ResponseDTO = new ResponseDTO();
+        ResponseDTO.setCode(HttpStatus.NOT_FOUND);
+        ResponseDTO.setStatus("ERROR");
+        ResponseDTO.setMessage(exc.getMessage());
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ResponseDTO);
     }
     @ResponseStatus(HttpStatus.CONFLICT)
     @ExceptionHandler(DuplicateResourceException.class)
     public ResponseEntity<ResponseDTO> handleDuplicateResource(DuplicateResourceException exc) {
-        ResponseDTO responseDTO = new ResponseDTO();
-        responseDTO.setCode(HttpStatus.CONFLICT);
-        responseDTO.setStatus("Duplicate Request");
-        responseDTO.setMessage(exc.getMessage());
-        return ResponseEntity.status(HttpStatus.CONFLICT).body(responseDTO);
+        ResponseDTO ResponseDTO = new ResponseDTO();
+        ResponseDTO.setCode(HttpStatus.CONFLICT);
+        ResponseDTO.setStatus("Duplicate Request");
+        ResponseDTO.setMessage(exc.getMessage());
+        return ResponseEntity.status(HttpStatus.CONFLICT).body(ResponseDTO);
     }
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(DateTimeParseException.class)
     public ResponseEntity<ResponseDTO> handleDateTimeParse(DateTimeParseException exc) {
-        ResponseDTO responseDTO = new ResponseDTO();
-        responseDTO.setCode(HttpStatus.BAD_REQUEST);
-        responseDTO.setStatus("Invalid Input");
-        responseDTO.setMessage("Date should be in the format of  dd/mm/yyyy");
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(responseDTO);
+        ResponseDTO ResponseDTO = new ResponseDTO();
+        ResponseDTO.setCode(HttpStatus.BAD_REQUEST);
+        ResponseDTO.setStatus("Invalid Input");
+        ResponseDTO.setMessage("Date should be in the format of  dd/mm/yyyy");
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ResponseDTO);
     }
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(InvalidInputException.class)
     public ResponseEntity<ResponseDTO> handleInvalidInput(InvalidInputException exc) {
-        ResponseDTO responseDTO = new ResponseDTO();
-        responseDTO.setCode(HttpStatus.BAD_REQUEST);
-        responseDTO.setStatus("Invalid Input");
-        responseDTO.setMessage(exc.getMessage());
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(responseDTO);
+        ResponseDTO ResponseDTO = new ResponseDTO();
+        ResponseDTO.setCode(HttpStatus.BAD_REQUEST);
+        ResponseDTO.setStatus("Invalid Input");
+        ResponseDTO.setMessage(exc.getMessage());
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ResponseDTO);
     }
 
     @ExceptionHandler(CurrencyNotFoundException.class)
-    public ResponseEntity<ResponseDto> handleCurrencyExceptions(CurrencyNotFoundException ex) {
-        List<ResponseDto> responseDTOs = new ArrayList<>();
+    public ResponseEntity<ResponseDTO> handleCurrencyExceptions(CurrencyNotFoundException ex) {
+        List<ResponseDTO> ResponseDTOs = new ArrayList<>();
         Map<String, String> errorMapping = new HashMap<>();
-        ResponseDto errorResponse= new ResponseDto();
+        ResponseDTO errorResponse= new ResponseDTO();
         errorResponse.setCode(HttpStatus.BAD_REQUEST);
         errorResponse.setStatus("Invalid Input Error");
         errorResponse.setMessage(ex.getMessage());
@@ -123,10 +123,10 @@ public class ControllerAdvice {
     }
 
     @ExceptionHandler(ResidenceException.class)
-    public ResponseEntity<ResponseDto> handleResidenceExceptions(CurrencyNotFoundException ex) {
-        List<ResponseDto> responseDTOs = new ArrayList<>();
+    public ResponseEntity<ResponseDTO> handleResidenceExceptions(CurrencyNotFoundException ex) {
+        List<ResponseDTO> ResponseDTOs = new ArrayList<>();
         Map<String, String> errorMapping = new HashMap<>();
-        ResponseDto errorResponse= new ResponseDto();
+        ResponseDTO errorResponse= new ResponseDTO();
         errorResponse.setCode(HttpStatus.BAD_REQUEST);
         errorResponse.setStatus("Invalid Input Error");
         errorResponse.setMessage(ex.getMessage());

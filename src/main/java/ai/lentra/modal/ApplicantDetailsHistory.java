@@ -4,9 +4,9 @@ import ai.lentra.modal.commitment.CommitmentDetails;
 import ai.lentra.modal.contact_info.ContactDetails;
 import ai.lentra.modal.employment_info.OfficeSelfEmployment;
 import ai.lentra.modal.expenses.Expenses;
-import ai.lentra.modal.famil_info.FamilyDetails;
+import ai.lentra.modal.famil_info.FamilyDetail;
 import ai.lentra.modal.personal_info.PersonalDetails;
-import ai.lentra.modal.residence.ResidenceDetails;
+import ai.lentra.modal.residence.Residence;
 import ai.lentra.modal.summary.Summary;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Data;
@@ -27,7 +27,7 @@ public class ApplicantDetailsHistory {
     private CommitmentDetails commitments;
     @OneToOne(cascade = CascadeType.PERSIST)
     @JoinColumn(name = "family_details", referencedColumnName = "applicant_id")
-    private FamilyDetails familyDetails;
+    private FamilyDetail familyDetails;
     @OneToOne(cascade = CascadeType.PERSIST)
     @JoinColumn(name = "employment_details", referencedColumnName = "applicant_id")
     private OfficeSelfEmployment officeSelfEmployment;
@@ -39,7 +39,7 @@ public class ApplicantDetailsHistory {
     private PersonalDetails personalDetails;
     @OneToOne(cascade = CascadeType.PERSIST)
     @JoinColumn(name = "residence_details", referencedColumnName = "applicant_id")
-    private ResidenceDetails residences;
+    private Residence residences;
     @OneToOne(cascade = CascadeType.PERSIST)
     @JoinColumn(name = "expenses", referencedColumnName = "applicant_id")
     private Expenses expenses;

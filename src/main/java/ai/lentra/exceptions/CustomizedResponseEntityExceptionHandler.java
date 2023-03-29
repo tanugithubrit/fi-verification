@@ -12,7 +12,7 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 
 import java.util.Date;
 
-import static ai.lentra.common.ResponeGen.getResponse;
+import static ai.lentra.commons.ResponeGen.getResponse;
 
 @ControllerAdvice
 @RestController

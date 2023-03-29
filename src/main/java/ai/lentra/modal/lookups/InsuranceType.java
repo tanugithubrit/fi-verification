@@ -1,4 +1,4 @@
-package ai.lentra.modal.lookup;
+package ai.lentra.modal.lookups;
 
 import lombok.Data;
 
