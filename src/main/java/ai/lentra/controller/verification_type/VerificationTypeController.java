@@ -20,7 +20,7 @@ public class VerificationTypeController {
     @Autowired
     VerificationConfigService configService;
 
-    @GetMapping("/{profile}/{productType}")
+    @GetMapping("/{profile_name}/{product_type}")
     public ResponseEntity<ResponseDTO> getVerificationType(@RequestHeader(value="Content-Type",required = true) String contentType  ,
                                                            @RequestHeader(value="token",required = false) String token,
                                                            @RequestHeader(value="user_name",required = true) String userName ,
