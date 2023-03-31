@@ -13,6 +13,8 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.multipart.MaxUploadSizeExceededException;
 
+import javax.validation.ConstraintViolationException;
+import java.nio.charset.StandardCharsets;
 import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -134,5 +136,26 @@ public class ControllerAdvice {
 
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorResponse);
     }
+    @ExceptionHandler(ConstraintViolationException.class)
+    public ResponseEntity<List<ResponseDTO>> handleValidationExceptions1(ConstraintViolationException ex) {
+        List<ResponseDTO> ResponseDTOs = new ArrayList<>();
+        Map<String, String> errorMapping = new HashMap<>();
+        ResponseDTO errorResponse= new ResponseDTO();
+        errorResponse.setCode(HttpStatus.BAD_REQUEST);
+        errorResponse.setStatus("Invalid Input Error");
+
+
+//        ex.getBindingResult().getFieldErrors().forEach(error -> {
+//            errorMapping.put(error.getField(), error.getDefaultMessage());
+//            errorResponse.setMessage(errorMapping.toString());
+//            ResponseDTOs.add(errorResponse);
+//        });
+errorResponse.setMessage(ex.getMessage());
+        ResponseDTOs.add(errorResponse);
+System.out.println("BAD REQ Msg: "+ex);
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ResponseDTOs);
+    }
+
+
 
 }
