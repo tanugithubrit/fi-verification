@@ -1,6 +1,7 @@
 package ai.lentra.dto;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonRawValue;
 import org.springframework.beans.factory.annotation.Value;
@@ -14,12 +15,11 @@ import javax.validation.constraints.Pattern;
 import java.math.BigDecimal;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
-
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class ExpensesDto {
 
 
-    @JsonProperty("id")
-    private Long id;
+
 
     @JsonProperty("other_exp")
     private BigDecimal otherExp;
@@ -43,7 +43,7 @@ public class ExpensesDto {
     private BigDecimal broadbandBillAmt;
 
     @JsonProperty("avg_fuel_cost")
-    private BigDecimal avgFuelCost;
+    private Integer avgFuelCost;
 
     @JsonProperty("water_bill_amt")
     private BigDecimal waterBillAmt;
@@ -58,13 +58,6 @@ public class ExpensesDto {
         this.applicantId = applicantId;
     }
 
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
 
     public BigDecimal getOtherExp() {
         return otherExp;
@@ -122,11 +115,11 @@ public class ExpensesDto {
         this.broadbandBillAmt = broadbandBillAmt;
     }
 
-    public BigDecimal getAvgFuelCost() {
+    public Integer getAvgFuelCost() {
         return avgFuelCost;
     }
 
-    public void setAvgFuelCost(BigDecimal avgFuelCost) {
+    public void setAvgFuelCost(Integer avgFuelCost) {
         this.avgFuelCost = avgFuelCost;
     }
 
@@ -134,23 +127,7 @@ public class ExpensesDto {
         return waterBillAmt;
     }
 
-    public ExpensesDto(Long id, BigDecimal otherExp, BigDecimal collegeFeesAmt, BigDecimal schoolFeesAmt, BigDecimal electricBillAmt, BigDecimal officeTransportationCost, BigDecimal cableNetBillAmt, BigDecimal broadbandBillAmt, BigDecimal avgFuelCost, BigDecimal waterBillAmt, Integer applicantId) {
-        this.id = id;
-        this.otherExp = otherExp;
-        this.collegeFeesAmt = collegeFeesAmt;
-        this.schoolFeesAmt = schoolFeesAmt;
-        this.electricBillAmt = electricBillAmt;
-        this.officeTransportationCost = officeTransportationCost;
-        this.cableNetBillAmt = cableNetBillAmt;
-        this.broadbandBillAmt = broadbandBillAmt;
-        this.avgFuelCost = avgFuelCost;
-        this.waterBillAmt = waterBillAmt;
-        this.applicantId = applicantId;
-    }
-
     public void setWaterBillAmt(BigDecimal waterBillAmt) {
         this.waterBillAmt = waterBillAmt;
     }
-
-
 }

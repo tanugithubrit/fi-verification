@@ -1,6 +1,7 @@
 package ai.lentra.dto.file_upload;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Data;
 import org.springframework.data.annotation.CreatedDate;
 
@@ -12,7 +13,7 @@ import java.time.Instant;
 
 @Data
 @JsonIgnoreProperties(ignoreUnknown = true)
-
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class FileUpload {
 
 

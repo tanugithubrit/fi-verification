@@ -19,4 +19,5 @@ public class LookupController {
     public ResponseEntity<?> getSimType(){
         return lookupServiceImpl.getSimType();
     }
+
 }

@@ -3,10 +3,7 @@ package ai.lentra.modal.commitment;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Data;
 
-import javax.persistence.Column;
-import javax.persistence.Embeddable;
-import javax.persistence.Entity;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 @Data
 @Entity
@@ -14,7 +11,10 @@ import javax.persistence.Id;
 @Embeddable
 public class CommitmentDetails{
 	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	private long id;
 	@Column(name = "applicant_id")
+//	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long applicantId;
 	private String bankNameLoc;
 	private int termInsuranceAmt;

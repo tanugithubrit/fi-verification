@@ -53,7 +53,7 @@ public class FileUploadServiceImpl implements FileUploadService{
         List<String> errorMessages = new ArrayList<>();
 
         List<FileUpload> fileUploads = Arrays.stream(multipartFiles)
-                .peek(file -> {
+                .filter(file -> {
                     String fileName = StringUtils.cleanPath(Objects.requireNonNull(file.getOriginalFilename()));
                     String fileExtension = fileName.substring(fileName.lastIndexOf(".") + 1).toLowerCase();
 
@@ -71,11 +71,8 @@ public class FileUploadServiceImpl implements FileUploadService{
                         );
 
                     }
+                    return  false;
 
-                    // Check file size is not larger than MAX_FILE_SIZE (100MB)
-                    if (file.getSize() > MAX_FILE_SIZE) {
-                        errorMessages.add(fileName + ": File size must be less than or equal to 100 MB");
-                    }
                 })
                 .filter(file -> file.getSize() <= MAX_FILE_SIZE)
                 .map(file -> {
@@ -104,7 +101,7 @@ public class FileUploadServiceImpl implements FileUploadService{
         if (!errorMessages.isEmpty()) {
             List<ResponseDTO> errros = errorMessages.stream().map(err -> {
                 ResponseDTO response = new ResponseDTO();
-                response.setCode(HttpStatus.BAD_REQUEST);
+                response.setCode("400");
                 response.setMessage(err);
                 response.setStatus("Upload Failed");
                 return response;
@@ -257,7 +254,7 @@ public class FileUploadServiceImpl implements FileUploadService{
         if (!errorMessages.isEmpty()) {
             List<ResponseDTO> errors = errorMessages.stream().map(err -> {
                 ResponseDTO response = new ResponseDTO();
-                response.setCode(HttpStatus.BAD_REQUEST);
+                response.setCode("400");
                 response.setMessage(err);
                 response.setStatus("Upload Failed");
                 return response;

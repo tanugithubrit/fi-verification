@@ -17,6 +17,7 @@ public class ContactDetails {
 
     @Id
     @Column(name = "applicant_id", nullable = false)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private long applicantId;
     @Pattern(regexp = "^\\d{10,13}$",message = "Mobile number should contain 10 to 13 digits only")
     private String mobileNumber;

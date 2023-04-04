@@ -1,6 +1,7 @@
 package ai.lentra.dto.personal_info;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Data;
 
 import javax.validation.constraints.DecimalMax;
@@ -10,6 +11,7 @@ import java.math.BigDecimal;
 
 @Data
 @JsonIgnoreProperties(ignoreUnknown = true)
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class PersonalDetailsDTO {
 
 	private long applicantId;

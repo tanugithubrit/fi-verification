@@ -35,4 +35,7 @@ FileUploadServiceImpl fileUploadServiceImpl;
     public ResponseEntity<?> downloadFile(@PathVariable Long applicantId,@PathVariable String fileName) throws IOException {
         return fileUploadServiceImpl.getFilebyNameAndApplicantId(applicantId,fileName);
     }
+
+
+
 }

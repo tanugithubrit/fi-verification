@@ -20,18 +20,18 @@ public class LookupServiceImpl implements LookupService {
         if (simCardType!=null) {
             simCardType.setActive(true);
             simCardTypeRepository.save(simCardType);
-            ResponseDTO ResponseDTO = new ResponseDTO();
-            ResponseDTO.setStatus("Success");
-            ResponseDTO.setCode(HttpStatus.CREATED);
-            ResponseDTO.setMessage("Successfully created sim card type.");
-            return ResponseEntity.status(HttpStatus.CREATED).body(ResponseDTO);
+            ResponseDTO responseDTO = new ResponseDTO();
+            responseDTO.setStatus("Success");
+            responseDTO.setCode("201");
+            responseDTO.setMessage("Successfully created sim card type.");
+            return ResponseEntity.status(HttpStatus.CREATED).body(responseDTO);
         }
         else {
-            ResponseDTO ResponseDTO = new ResponseDTO();
-            ResponseDTO.setStatus("Failed");
-            ResponseDTO.setCode(HttpStatus.BAD_REQUEST);
-            ResponseDTO.setMessage("Failed to create sim Data");
-            return ResponseEntity.badRequest().body(ResponseDTO);
+            ResponseDTO responseDTO = new ResponseDTO();
+            responseDTO.setStatus("Failed");
+            responseDTO.setCode("201");
+            responseDTO.setMessage("Failed to create sim Data");
+            return ResponseEntity.badRequest().body(responseDTO);
         }
     }
 
@@ -42,11 +42,11 @@ public class LookupServiceImpl implements LookupService {
             return ResponseEntity.ok(Collections.singletonList(simCardType));
         }
         else {
-            ResponseDTO ResponseDTO = new ResponseDTO();
-            ResponseDTO.setStatus("Failed");
-            ResponseDTO.setCode(HttpStatus.NOT_FOUND);
-            ResponseDTO.setMessage("Failed to retrieve sim card type.");
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(Collections.singletonList(ResponseDTO));
+            ResponseDTO responseDTO = new ResponseDTO();
+            responseDTO.setStatus("Failed");
+            responseDTO.setCode("400");
+            responseDTO.setMessage("Failed to retrieve sim card type.");
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(Collections.singletonList(responseDTO));
         }
     }
 }
